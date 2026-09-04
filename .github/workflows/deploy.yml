@@ -25,10 +25,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Set up Node
+      - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: latest
+          node-version: lts/*
           cache: 'npm'
 
       - name: Install dependencies
@@ -37,14 +37,11 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v6
-
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
           # Uploading the 'dist' directory as the artifact to be deployed
-          path: './dist'
+          path: dist
 
   deploy:
       needs: build
