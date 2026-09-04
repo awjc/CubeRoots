@@ -18,7 +18,7 @@ export function initScene(container: HTMLElement) {
   pointLight.position.set(5, 5, 5);
   engine.scene.add(pointLight);
 
-  // 3. Add Components (Experiments)
+  // 3. Add Components
   const initialCubeSettings: CubeSettings = {
     color: 0x00ff00,
     rotationSpeed: 1.0,

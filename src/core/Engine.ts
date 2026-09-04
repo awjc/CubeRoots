@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { BaseObject } from '../components/BaseObject';
 
 export interface EngineConfig {
   container: HTMLElement;
@@ -10,11 +11,13 @@ export class Engine {
   public renderer: THREE.WebGLRenderer;
   public scene: THREE.Scene;
   public camera: THREE.PerspectiveCamera;
-  private objects: Set<any> = new Set();
-  private clock: THREE.Clock = new THREE.Clock();
+  private objects: Set<BaseObject> = new Set();
+  private timer: THREE.Timer = new THREE.Timer();
   private isRunning: boolean = false;
 
   constructor(config: EngineConfig) {
+    console.log('Initializing Three.JS...')
+
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(
       75,
@@ -38,7 +41,7 @@ export class Engine {
     });
     this.renderer.setSize(config.container.clientWidth, config.container.clientHeight);
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    
+
     if (config.clearColor !== undefined) {
       this.renderer.setClearColor(config.clearColor);
     }
@@ -63,24 +66,26 @@ export class Engine {
   }
 
   public start() {
-    if (this.isRunning) return;
+    if (this.isRunning) {
+      return;
+    }
     this.isRunning = true;
     this.animate();
   }
 
   private animate() {
-    if (!this.isRunning) return;
+    if (!this.isRunning) {
+      return;
+    }
     requestAnimationFrame(() => this.animate());
+    this.timer.update();
 
-    const delta = this.clock.getDelta();
-    const elapsed = this.clock.getElapsedTime();
-
+    const delta = this.timer.getDelta();
     for (const obj of this.objects) {
-      if (obj && typeof obj.update === 'function') {
-        obj.update(delta, elapsed);
-      }
+      obj.update(delta);
     }
 
     this.renderer.render(this.scene, this.camera);
   }
 }
+

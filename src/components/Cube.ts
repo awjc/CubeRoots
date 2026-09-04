@@ -18,22 +18,22 @@ export class Cube extends BaseObject {
       metalness: initialSettings.metalness,
       roughness: initialSettings.roughness
     });
-    
+
     const mesh = new THREE.Mesh(geometry, material);
-    
+
     super(mesh);
     this.settings = initialSettings;
     this.addTo(scene);
   }
 
-  public update(delta: number, elapsed: number): void {
-    this.mesh.rotation.x += delta * this.settings.rotationSpeed;
-    this.mesh.rotation.y += delta * this.settings.rotationSpeed;
+  public update(deltaSecs: number): void {
+    this.mesh.rotation.x += deltaSecs * this.settings.rotationSpeed;
+    this.mesh.rotation.y += deltaSecs * this.settings.rotationSpeed;
   }
 
   public updateAppearance(updates: Partial<CubeSettings>) {
     const mat = this.mesh.material as THREE.MeshStandardMaterial;
-    
+
     if (updates.color !== undefined) mat.color.set(updates.color);
     if (updates.metalness !== undefined) mat.metalness = updates.metalness;
     if (updates.roughness !== undefined) mat.roughness = updates.roughness;
