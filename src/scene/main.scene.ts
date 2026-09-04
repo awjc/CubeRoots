@@ -1,0 +1,39 @@
+import * as THREE from 'three';
+import { Engine } from '../core/Engine';
+import { Cube, CubeSettings } from '../components/Cube';
+import { ControlPanel } from '../ui/ControlPanel';
+
+export function initScene(container: HTMLElement) {
+  // 1. Initialize Engine
+  const engine = new Engine({
+    container,
+    clearColor: '#1a1a1a'
+  });
+
+  // 2. Add Lighting
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  engine.scene.add(ambientLight);
+
+  const pointLight = new THREE.PointLight(0xffffff, 50);
+  pointLight.position.set(5, 5, 5);
+  engine.scene.add(pointLight);
+
+  // 3. Add Components (Experiments)
+  const initialCubeSettings: CubeSettings = {
+    color: 0x00ff00,
+    rotationSpeed: 1.0,
+    metalness: 0.5,
+    roughness: 0.5
+  };
+
+  const cube = new Cube(engine.scene, initialCubeSettings);
+  engine.addObject(cube);
+
+  // 4. Setup UI
+  const controls = new ControlPanel(cube);
+
+  // 5. Start
+  engine.start();
+
+  return { engine, controls };
+}
