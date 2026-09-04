@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import Stats from 'three/addons/libs/stats.module.js';
+
 
 console.log("Initializing Three.js...");
 
@@ -35,6 +37,10 @@ if (container) {
   console.log("Warning: #app not found, appended to body instead");
 }
 
+// Stats is a component showing FPS, etc
+const stats = new Stats();
+container.appendChild(stats.dom);
+
 // Add a geometry/material/mesh
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshNormalMaterial(); // Using NormalMaterial for instant color
@@ -51,6 +57,8 @@ function animate() {
   cube.rotation.y += 0.01;
 
   renderer.render(scene, camera);
+
+  stats.update();
 }
 
 // Handle window resize
