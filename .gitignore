@@ -26,8 +26,8 @@ pids
 # Optional npm cache directory
 .npm
 
-# Node modules (if adding any build tools later)
 node_modules/
+dist/
 
 # Backup files
 *.bak
