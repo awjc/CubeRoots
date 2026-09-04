@@ -1,15 +1,7 @@
 import * as THREE from 'three';
 import Stats from 'three/addons/libs/stats.module.js';
 
-
 console.log("Initializing Three.js...");
-
-// Get the app container
-const container = document.getElementById('app');
-
-if (!container) {
-  console.error("Error: #app container not found in DOM!");
-}
 
 // Scene setup
 const scene = new THREE.Scene();
@@ -28,22 +20,17 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 
-// Append the renderer's canvas to our #app container
-if (container) {
-  container.appendChild(renderer.domElement);
-  console.log("Renderer canvas appended to #app");
-} else {
-  document.body.appendChild(renderer.domElement);
-  console.log("Warning: #app not found, appended to body instead");
-}
+// Append the renderer's canvas to our #app container, or document.body as a fallback
+const container = document.getElementById('app') || document.body;
+container.appendChild(renderer.domElement);
 
-// Stats is a component showing FPS, etc
+// Stats is a component showing FPS performance, etc
 const stats = new Stats();
 container.appendChild(stats.dom);
 
 // Add a geometry/material/mesh
 const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshNormalMaterial();
+const material = new THREE.MeshNormalMaterial(); // Using NormalMaterial for instant color
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 
