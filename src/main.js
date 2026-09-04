@@ -43,7 +43,7 @@ container.appendChild(stats.dom);
 
 // Add a geometry/material/mesh
 const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshNormalMaterial(); // Using NormalMaterial for instant color
+const material = new THREE.MeshNormalMaterial();
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 
