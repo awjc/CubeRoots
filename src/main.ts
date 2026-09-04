@@ -5,5 +5,5 @@ const container = document.getElementById('app');
 if (container) {
   initScene(container);
 } else {
-  console.error('Failed to find #app container');
+  console.error('Failed to find #app container in index.html');
 }

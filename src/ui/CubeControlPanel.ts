@@ -1,15 +1,14 @@
 import { GUI } from 'lil-gui';
 import { Cube } from '../components/Cube';
 
-export class ControlPanel {
+export class CubeControlPanel {
   private gui: GUI;
 
   constructor(private cube: Cube) {
     this.gui = new GUI();
-    this.setupControls();
   }
 
-  private setupControls() {
+  public initialize() {
     const settings = this.cube.getSettings();
 
     const folder = this.gui.addFolder('Cube Settings');
@@ -18,7 +17,7 @@ export class ControlPanel {
       this.cube.updateAppearance({ color: val });
     });
 
-    folder.add(settings, 'rotationSpeed', 0, 10).name('Rotation').onChange(() => {});
+    folder.add(settings, 'rotationSpeed', 0, 10).name('Rotation').onChange(() => { });
 
     // Note: The way update was implemented in Cube uses settings directly from the object for rotation
     // but for material properties we need to manually trigger updateAppearance.

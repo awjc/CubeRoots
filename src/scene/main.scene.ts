@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { Engine } from '../core/Engine';
 import { Cube, CubeSettings } from '../components/Cube';
-import { ControlPanel } from '../ui/ControlPanel';
+import { CubeControlPanel } from '../ui/CubeControlPanel';
 
 export function initScene(container: HTMLElement) {
   // 1. Initialize Engine
@@ -29,11 +29,10 @@ export function initScene(container: HTMLElement) {
   const cube = new Cube(engine.scene, initialCubeSettings);
   engine.addObject(cube);
 
-  // 4. Setup UI
-  const controls = new ControlPanel(cube);
+  // 4. Setup Control Panel
+  const controls = new CubeControlPanel(cube);
+  controls.initialize();
 
   // 5. Start
   engine.start();
-
-  return { engine, controls };
 }
