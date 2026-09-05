@@ -32,3 +32,6 @@ dist/
 # Backup files
 *.bak
 *~
+
+# VSCode DevContainer
+.devcontainer
