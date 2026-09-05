@@ -5,6 +5,8 @@ import { BaseObject } from './BaseObject';
  * Configuration settings for a Cube object.
  */
 export interface CubeSettings {
+  /** The length of one of the sides of the cube */
+  size: number,
   /** The color of the cube. */
   color: number;
   /** The speed at which the cube rotates. */
@@ -28,7 +30,7 @@ export class Cube extends BaseObject {
    * @param initialSettings The initial settings for the cube.
    */
   constructor(scene: THREE.Scene, initialSettings: CubeSettings) {
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const geometry = new THREE.BoxGeometry(initialSettings.size, initialSettings.size, initialSettings.size);
     const material = new THREE.MeshStandardMaterial({
       color: initialSettings.color,
       metalness: initialSettings.metalness,
@@ -57,6 +59,11 @@ export class Cube extends BaseObject {
    */
   public updateAppearance(updates: Partial<CubeSettings>) {
     const mat = this.mesh.material as THREE.MeshStandardMaterial;
+
+    if (updates.size !== undefined) {
+      this.mesh.geometry.dispose();
+      this.mesh.geometry = new THREE.BoxGeometry(updates.size, updates.size, updates.size);
+    }
 
     if (updates.color !== undefined) mat.color.set(updates.color);
     if (updates.metalness !== undefined) mat.metalness = updates.metalness;

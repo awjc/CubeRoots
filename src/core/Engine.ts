@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 
 import Stats from 'three/addons/libs/stats.module.js';
-
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { BaseObject } from '../components/BaseObject';
 
 export interface EngineConfig {
@@ -32,6 +32,9 @@ export class Engine {
   private isRunning: boolean = false;
   /** Stats is a component showing FPS performance, etc */
   private stats: Stats;
+  /** OrbitControls natively handles pan/zoom/rotation via mouse + touchscreen */
+  private controls: OrbitControls;
+
 
   /**
    * Creates a new engine instance.
@@ -55,6 +58,20 @@ export class Engine {
       canvas = document.createElement('canvas');
       config.container.appendChild(canvas);
     }
+
+    // Orbit controls — left/middle drag pans, right drag orbits (Timberborn style)
+    this.controls = new OrbitControls(this.camera, canvas);
+    // this.controls.enableDamping = true;
+    // this.controls.dampingFactor = 0.06;
+    this.controls.mouseButtons = {
+      LEFT: null as unknown as THREE.MOUSE, // repurposed for object selection
+      MIDDLE: THREE.MOUSE.PAN,
+      RIGHT: THREE.MOUSE.ROTATE,
+    };
+    // Also suppress default mouse events on the canvas
+    config.container.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+    });
 
     // Set up the stats display and add it to the container
     this.stats = new Stats();
@@ -128,6 +145,7 @@ export class Engine {
 
     this.renderer.render(this.scene, this.camera);
 
+    this.controls.update();
     this.stats.update();
   }
 }
