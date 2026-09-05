@@ -2,10 +2,9 @@
  * Configuration for the Engine instance.
  */
 import * as THREE from 'three';
-
 import Stats from 'three/addons/libs/stats.module.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { BaseObject } from '../components/BaseObject';
+import { BaseObject } from '@/components/BaseObject';
 
 export interface EngineConfig {
   /** The HTML element that will host the canvas. */
@@ -149,4 +148,5 @@ export class Engine {
     this.stats.update();
   }
 }
+
 

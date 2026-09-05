@@ -18,7 +18,15 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    /* Path Aliases */
+    "paths": {
+      // This maps imports starting with '@' to be relative to the src folder, e.g. src/ui becomes @/src/ui
+      "@/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": ["src"]
 }
+

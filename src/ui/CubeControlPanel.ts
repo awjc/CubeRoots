@@ -1,5 +1,5 @@
+import { Cube } from '@/components/Cube';
 import { GUI } from 'lil-gui';
-import { Cube } from '../components/Cube';
 
 /**
  * A control panel for manipulating the properties of a Cube object.

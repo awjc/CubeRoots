@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { Engine } from '../core/Engine';
-import { Cube, CubeSettings } from '../components/Cube';
-import { CubeControlPanel } from '../ui/CubeControlPanel';
+import { Cube, CubeSettings } from '@/components/Cube';
+import { CubeControlPanel } from '@/ui/CubeControlPanel';
+import { Engine } from '@/core/Engine';
 
 /**
  * Initializes the main 3D scene, including the engine, lighting, cube, and control panel.
