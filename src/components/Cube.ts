@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { BaseObject } from './BaseObject';
+import { BaseObject } from '@/components/BaseObject';
 
 /**
  * Configuration settings for a Cube object.
