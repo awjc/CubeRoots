@@ -2,6 +2,9 @@
  * Configuration for the Engine instance.
  */
 import * as THREE from 'three';
+
+import Stats from 'three/addons/libs/stats.module.js';
+
 import { BaseObject } from '../components/BaseObject';
 
 export interface EngineConfig {
@@ -27,6 +30,8 @@ export class Engine {
   private objects: Set<BaseObject> = new Set();
   private timer: THREE.Timer = new THREE.Timer();
   private isRunning: boolean = false;
+  /** Stats is a component showing FPS performance, etc */
+  private stats: Stats;
 
   /**
    * Creates a new engine instance.
@@ -50,6 +55,10 @@ export class Engine {
       canvas = document.createElement('canvas');
       config.container.appendChild(canvas);
     }
+
+    // Set up the stats display and add it to the container
+    this.stats = new Stats();
+    config.container.appendChild(this.stats.dom);
 
     this.renderer = new THREE.WebGLRenderer({
       canvas: canvas as HTMLCanvasElement,
@@ -118,6 +127,8 @@ export class Engine {
     }
 
     this.renderer.render(this.scene, this.camera);
+
+    this.stats.update();
   }
 }
 
