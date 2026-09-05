@@ -1,13 +1,24 @@
 import { GUI } from 'lil-gui';
 import { Cube } from '../components/Cube';
 
+/**
+ * A control panel for manipulating the properties of a Cube object.
+ * Uses lil-gui to provide a user interface.
+ */
 export class CubeControlPanel {
   private gui: GUI;
 
+  /**
+   * Creates a new control panel instance.
+   * @param cube The Cube object to control.
+   */
   constructor(private cube: Cube) {
     this.gui = new GUI();
   }
 
+  /**
+   * Initializes the GUI with controls for the cube's settings.
+   */
   public initialize() {
     const settings = this.cube.getSettings();
 
@@ -33,6 +44,9 @@ export class CubeControlPanel {
     folder.open();
   }
 
+  /**
+   * Destroys the GUI instance.
+   */
   public destroy() {
     this.gui.destroy();
   }

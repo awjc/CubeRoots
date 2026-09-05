@@ -3,6 +3,10 @@ import { Engine } from '../core/Engine';
 import { Cube, CubeSettings } from '../components/Cube';
 import { CubeControlPanel } from '../ui/CubeControlPanel';
 
+/**
+ * Initializes the main 3D scene, including the engine, lighting, cube, and control panel.
+ * @param container The HTML element where the scene will be rendered.
+ */
 export function initScene(container: HTMLElement) {
   // 1. Initialize Engine
   const engine = new Engine({

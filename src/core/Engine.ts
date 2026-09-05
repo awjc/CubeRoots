@@ -1,20 +1,37 @@
+/**
+ * Configuration for the Engine instance.
+ */
 import * as THREE from 'three';
 import { BaseObject } from '../components/BaseObject';
 
 export interface EngineConfig {
+  /** The HTML element that will host the canvas. */
   container: HTMLElement;
+  /** Whether to use antialiasing. Defaults to true. */
   antialias?: boolean;
+  /** The background color of the renderer. */
   clearColor?: string | number;
 }
 
+/**
+ * The core Engine class responsible for managing the Three.js renderer,
+ * scene, camera, and the animation loop.
+ */
 export class Engine {
+  /** The WebGL renderer instance. */
   public renderer: THREE.WebGLRenderer;
+  /** The Three.js scene. */
   public scene: THREE.Scene;
+  /** The perspective camera. */
   public camera: THREE.PerspectiveCamera;
   private objects: Set<BaseObject> = new Set();
   private timer: THREE.Timer = new THREE.Timer();
   private isRunning: boolean = false;
 
+  /**
+   * Creates a new engine instance.
+   * @param config Configuration object for the engine.
+   */
   constructor(config: EngineConfig) {
     console.log('Initializing Three.JS...')
 
@@ -49,14 +66,23 @@ export class Engine {
     window.addEventListener('resize', () => this.onResize());
   }
 
+  /**
+   * Adds an object to the engine's update loop.
+   */
   public addObject(obj: any) {
     this.objects.add(obj);
   }
 
+  /**
+   * Removes an object from the engine's update loop.
+   */
   public removeObject(obj: any) {
     this.objects.delete(obj);
   }
 
+  /**
+   * Handles window resize events to update camera aspect and renderer size.
+   */
   private onResize() {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -65,6 +91,9 @@ export class Engine {
     this.camera.updateProjectionMatrix();
   }
 
+  /**
+   * Starts the animation loop.
+   */
   public start() {
     if (this.isRunning) {
       return;
@@ -73,6 +102,9 @@ export class Engine {
     this.animate();
   }
 
+  /**
+   * The internal animation loop.
+   */
   private animate() {
     if (!this.isRunning) {
       return;
