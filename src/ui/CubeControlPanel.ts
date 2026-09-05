@@ -24,6 +24,10 @@ export class CubeControlPanel {
 
     const folder = this.gui.addFolder('Cube Settings');
 
+    folder.add(settings, 'size', 0.1, 5).name('Size').onChange((val: number) => {
+      this.cube.updateAppearance({ size: val })
+    });
+
     folder.addColor(settings, 'color').name('Color').onChange((val: number) => {
       this.cube.updateAppearance({ color: val });
     });
