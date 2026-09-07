@@ -1,5 +1,5 @@
 import { Cube } from '@/components/Cube';
-import { GUI } from 'lil-gui';
+import { Controller, GUI } from 'lil-gui';
 
 
 type Actions = {
@@ -18,6 +18,8 @@ export class CubeControlPanel {
   /** A mapping of each cube object to its own folder */
   private folders: Map<Cube, GUI>;
 
+  private deleteActionControllers: Set<Controller>;
+
   /**
    * Creates a new control panel instance.
    * @param cube The Cube object to control.
@@ -25,6 +27,7 @@ export class CubeControlPanel {
   constructor(private cubes: Cube[]) {
     this.gui = new GUI();
     this.folders = new Map();
+    this.deleteActionControllers = new Set();
   }
 
   /**
@@ -32,8 +35,10 @@ export class CubeControlPanel {
    */
   public initialize(actions: Actions) {
     this.gui.add(actions, 'spawnNewCube').name('Spawn New Cube');
-    this.gui.add(actions, 'deleteLastCube').name('Delete Last Cube');
-    this.gui.add(actions, 'deleteAllCubes').name('Delete All Cubes');
+    this.deleteActionControllers.add(
+      this.gui.add(actions, 'deleteLastCube').name('Delete Last Cube'));
+    this.deleteActionControllers.add(
+      this.gui.add(actions, 'deleteAllCubes').name('Delete All Cubes'));
 
     this.cubes.forEach((cube, idx) => {
       this.initializeCubeSettings(cube, `Cube ${idx + 1} Settings`);
@@ -78,6 +83,9 @@ export class CubeControlPanel {
 
     // Keep track of it in the main map
     this.folders.set(cube, folder);
+
+    // Re-enable the delete controls if they were disabled previously
+    this.deleteActionControllers.forEach(controller => controller.enable())
   }
 
   /**
@@ -88,6 +96,10 @@ export class CubeControlPanel {
     if (folder) {
       folder.destroy();
       this.folders.delete(cube);
+    }
+
+    if (this.folders.size == 0) {
+      this.deleteActionControllers.forEach(controller => controller.disable())
     }
   }
 
