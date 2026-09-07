@@ -85,6 +85,9 @@ export function initScene(container: HTMLElement) {
   }
 
   const deleteAllCubes = () => {
+    const confirmed = window.confirm('Delete all cubes?');
+    if (!confirmed) return;
+
     while (cubes.length > 0) {
       deleteLastCube()
     }
