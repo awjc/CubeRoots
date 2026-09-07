@@ -32,7 +32,9 @@ export class CubeControlPanel {
       this.cube.updateAppearance({ color: val });
     });
 
-    folder.add(settings, 'rotationSpeed', 0, 10).name('Rotation').onChange(() => { });
+    folder.add(settings, 'rotationXSpeed', 0, 5).name('Rotation X').onChange(() => { });
+    folder.add(settings, 'rotationYSpeed', 0, 5).name('Rotation Y').onChange(() => { });
+    folder.add(settings, 'rotationZSpeed', 0, 5).name('Rotation Y').onChange(() => { });
 
     // Note: The way update was implemented in Cube uses settings directly from the object for rotation
     // but for material properties we need to manually trigger updateAppearance.

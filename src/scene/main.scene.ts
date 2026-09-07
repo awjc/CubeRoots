@@ -25,8 +25,10 @@ export function initScene(container: HTMLElement) {
   // 3. Add Components
   const initialCubeSettings: CubeSettings = {
     size: 2.0,
-    color: 0x00ff33,
-    rotationSpeed: 1.0,
+    color: '#00a2ff',
+    rotationXSpeed: 1.0,
+    rotationYSpeed: 0.5,
+    rotationZSpeed: 0.3,
     metalness: 0.9,
     roughness: 0.6
   };

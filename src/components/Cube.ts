@@ -8,9 +8,11 @@ export interface CubeSettings {
   /** The length of one of the sides of the cube */
   size: number,
   /** The color of the cube. */
-  color: number;
-  /** The speed at which the cube rotates. */
-  rotationSpeed: number;
+  color: THREE.ColorRepresentation;
+  /** The X-, Y-, and Z- direction speeds at which the cube rotates. */
+  rotationXSpeed: number;
+  rotationYSpeed: number;
+  rotationZSpeed: number;
   /** The metalness of the cube's material. */
   metalness: number;
   /** The roughness of the cube's material. */
@@ -49,8 +51,9 @@ export class Cube extends BaseObject {
    * @param deltaSecs The time elapsed since the last update in seconds.
    */
   public update(deltaSecs: number): void {
-    this.mesh.rotation.x += deltaSecs * this.settings.rotationSpeed;
-    this.mesh.rotation.y += deltaSecs * this.settings.rotationSpeed;
+    this.mesh.rotation.x += deltaSecs * this.settings.rotationXSpeed;
+    this.mesh.rotation.y += deltaSecs * this.settings.rotationYSpeed;
+    this.mesh.rotation.z += deltaSecs * this.settings.rotationZSpeed;
   }
 
   /**

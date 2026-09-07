@@ -12,7 +12,7 @@ export interface EngineConfig {
   /** Whether to use antialiasing. Defaults to true. */
   antialias?: boolean;
   /** The background color of the renderer. */
-  clearColor?: string | number;
+  clearColor?: THREE.ColorRepresentation;
 }
 
 /**
