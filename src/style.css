@@ -12,5 +12,9 @@ body {
 
 /* Some lil-gui specific customizations */
 .lil-gui {
-	--name-width: 30%;  /* Narrower names to fit better on mobile */
+  /* Narrower to fit better on mobile / narrow windows */
+  @media (max-width:1000px) {
+    --width: 170px;
+    --name-width: 30%;
+  }
 }

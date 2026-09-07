@@ -27,7 +27,7 @@ export class CubeControlPanel {
    * @param cube The Cube object to control.
    */
   constructor(private cubes: Cube[]) {
-    this.gui = new GUI({ width: 170 }); // make it a little narrower for mobile
+    this.gui = new GUI({ /* some options can go here */ });
     this.folders = new Map();
     this.deleteActionControllers = new Set();
   }
