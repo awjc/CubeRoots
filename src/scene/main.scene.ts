@@ -73,7 +73,7 @@ export function initScene(container: HTMLElement) {
     engine.addObject(newCube);
     cubes.push(newCube);
 
-    controls.initializeCubeSettings(newCube, `Cube ${cubes.length} Settings`);
+    controls.initializeCubeSettings(newCube, `Cube ${cubes.length}`);
   }
 
   const deleteLastCube = () => {

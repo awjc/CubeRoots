@@ -9,3 +9,8 @@ body {
   height: 100vh;
   display: block;
 }
+
+/* Some lil-gui specific customizations */
+.lil-gui {
+	--name-width: 30%;  /* Narrower names to fit better on mobile */
+}
