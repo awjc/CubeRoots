@@ -23,21 +23,33 @@ export function initScene(container: HTMLElement) {
   engine.scene.add(pointLight);
 
   // 3. Add Components
-  const initialCubeSettings: CubeSettings = {
+  const cube1Settings: CubeSettings = {
     size: 2.0,
     color: '#00a2ff',
-    rotationXSpeed: 1.0,
-    rotationYSpeed: 0.5,
-    rotationZSpeed: 0.3,
+    position: new THREE.Vector3(-2.0, 0.0, 0.0),
+    rotationSpeed: new THREE.Vector3(0.7, 0.9, 0.1),
     metalness: 0.9,
     roughness: 0.6
   };
 
-  const cube = new Cube(engine.scene, initialCubeSettings);
-  engine.addObject(cube);
+  const cube2Settings: CubeSettings = {
+    size: 1.0,
+    color: '#00ff7b',
+    position: new THREE.Vector3(1.0, 1.0, 1.0),
+    rotationSpeed: new THREE.Vector3(1.0, 0.5, 0.3),
+    metalness: 0.9,
+    roughness: 0.6
+  };
+
+  const cubes: Cube[] = [];
+  for (const settings of [cube1Settings, cube2Settings]) {
+    const cube = new Cube(engine.scene, settings);
+    engine.addObject(cube);
+    cubes.push(cube);
+  }
 
   // 4. Setup Control Panel
-  const controls = new CubeControlPanel(cube);
+  const controls = new CubeControlPanel(cubes);
   controls.initialize();
 
   // 5. Start
