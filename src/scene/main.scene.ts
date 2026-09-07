@@ -48,9 +48,50 @@ export function initScene(container: HTMLElement) {
     cubes.push(cube);
   }
 
-  // 4. Setup Control Panel
+  // 4. Setup Control Panel with custom action set
   const controls = new CubeControlPanel(cubes);
-  controls.initialize();
+
+  const spawnNewCube = () => {
+    const newCubeSettings: CubeSettings = {
+      size: THREE.MathUtils.randFloat(0.4, 2),
+      color: new THREE.Color().setHSL(
+        THREE.MathUtils.randFloat(0, 1),
+        THREE.MathUtils.randFloat(0.7, 1),
+        THREE.MathUtils.randFloat(0.3, 1)),
+      position: new THREE.Vector3(
+        THREE.MathUtils.randFloat(-3, 3),
+        THREE.MathUtils.randFloat(-3, 3),
+        THREE.MathUtils.randFloat(-3, 3)),
+      rotationSpeed: new THREE.Vector3(
+        THREE.MathUtils.randFloat(0, 2),
+        THREE.MathUtils.randFloat(0, 2),
+        THREE.MathUtils.randFloat(0, 2)),
+      metalness: THREE.MathUtils.randFloat(0.2, 0.9),
+      roughness: THREE.MathUtils.randFloat(0.2, 0.9)
+    };
+    const newCube = new Cube(engine.scene, newCubeSettings);
+    engine.addObject(newCube);
+    cubes.push(newCube);
+
+    controls.initializeCubeSettings(newCube, `Cube ${cubes.length} Settings`);
+  }
+
+  const deleteLastCube = () => {
+    const lastCube = cubes.pop()
+    if (lastCube) {
+      engine.removeObject(lastCube);
+      controls.removeCubeSettings(lastCube);
+    }
+  }
+
+  const deleteAllCubes = () => {
+    while (cubes.length > 0) {
+      deleteLastCube()
+    }
+  }
+
+  const actions = { spawnNewCube, deleteLastCube, deleteAllCubes }
+  controls.initialize(actions);
 
   // 5. Start
   engine.start();
