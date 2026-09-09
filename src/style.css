@@ -8,6 +8,8 @@ body {
   width: 100vw;
   height: 100vh;
   display: block;
+  /* Prevent default touch actions like pinch to zoom the page */
+  touch-action: none;
 }
 
 /* Some lil-gui specific customizations */
