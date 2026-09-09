@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { Cube, CubeSettings } from '@/components/Cube';
 import { CubeControlPanel } from '@/ui/CubeControlPanel';
 import { Engine } from '@/core/Engine';
+import { Sphere, SphereSettings } from '@/components/Sphere';
 
 /**
  * Initializes the main 3D scene, including the engine, lighting, cube, and control panel.
@@ -47,6 +48,19 @@ export function initScene(container: HTMLElement) {
     engine.addObject(cube);
     cubes.push(cube);
   }
+
+  const sphereSettings: SphereSettings = {
+    radius: 1.5,
+    color: '#ff5900',
+    position: new THREE.Vector3(1.0, -1.0, -0.8),
+    rotationSpeed: new THREE.Vector3(0.2, 0.7, 0.8),
+    metalness: 0.9,
+    roughness: 0.6,
+    flatShading: true
+  };
+  const sphere = new Sphere(engine.scene, sphereSettings);
+  engine.addObject(sphere);
+
 
   // 4. Setup Control Panel with custom action set
   const controls = new CubeControlPanel(cubes);

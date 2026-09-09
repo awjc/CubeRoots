@@ -2,41 +2,48 @@ import * as THREE from 'three';
 import { BaseObject } from '@/components/BaseObject';
 
 /**
- * Configuration settings for a Cube object.
+ * Configuration settings for a Sphere object.
  */
-export interface CubeSettings {
-  /** The length of one of the sides of the cube */
-  size: number,
-  /** The color of the cube. */
+export interface SphereSettings {
+  /** The radius of the sphere */
+  radius: number,
+  /** The base color */
   color: THREE.ColorRepresentation;
-  /** Position of the cube in 3-space */
+  /** Position in 3-space */
   position: THREE.Vector3,
-  /** The X-, Y-, and Z- direction speeds at which the cube rotates. */
+  /** The X-, Y-, and Z- direction speeds at which it rotates. */
   rotationSpeed: THREE.Vector3,
-  /** The metalness of the cube's material. */
+  /** The metalness of the material. */
   metalness: number;
-  /** The roughness of the cube's material. */
+  /** The roughness of the material. */
   roughness: number;
+  /** Whether the shading is flat or the standard material */
+  flatShading: boolean;
 }
 
+const WIDTH_SEGMENTS: number = 20;
+const HEIGHT_SEGMENTS: number = 10;
+
 /**
- * A 3D cube in the scene.
+ * A 3D sphere in the scene.
  */
-export class Cube extends BaseObject {
-  private settings: CubeSettings;
+export class Sphere extends BaseObject {
+  private settings: SphereSettings;
 
   /**
-   * Creates a new Cube instance and adds it to the scene.
+   * Creates a new Sphere instance and adds it to the scene.
    * @param scene The Three.js scene.
    * @param initialSettings The initial settings.
    */
-  constructor(scene: THREE.Scene, initialSettings: CubeSettings) {
-    const geometry = new THREE.BoxGeometry(initialSettings.size, initialSettings.size, initialSettings.size);
-    const material = new THREE.MeshStandardMaterial({
-      color: initialSettings.color,
-      metalness: initialSettings.metalness,
-      roughness: initialSettings.roughness
-    });
+  constructor(scene: THREE.Scene, initialSettings: SphereSettings) {
+    const geometry = new THREE.SphereGeometry(initialSettings.radius, WIDTH_SEGMENTS, HEIGHT_SEGMENTS);
+    const material = initialSettings.flatShading ?
+      new THREE.MeshPhongMaterial({ flatShading: true }) :
+      new THREE.MeshStandardMaterial({
+        color: initialSettings.color,
+        metalness: initialSettings.metalness,
+        roughness: initialSettings.roughness
+      });
 
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(initialSettings.position.x, initialSettings.position.y, initialSettings.position.z);
@@ -68,17 +75,27 @@ export class Cube extends BaseObject {
    * Updates the visual appearance of the material.
    * @param newVals An object containing the partial updates for the settings.
    */
-  public setAppearanceVals(newVals: Partial<CubeSettings>) {
+  public setAppearanceVals(newVals: Partial<SphereSettings>) {
     const mat = this.mesh.material as THREE.MeshStandardMaterial;
 
-    if (newVals.size !== undefined) {
+    if (newVals.radius !== undefined) {
       this.mesh.geometry.dispose();
-      this.mesh.geometry = new THREE.BoxGeometry(newVals.size, newVals.size, newVals.size);
+      this.mesh.geometry = new THREE.SphereGeometry(this.settings.radius, WIDTH_SEGMENTS, HEIGHT_SEGMENTS);
     }
 
     if (newVals.color !== undefined) mat.color.set(newVals.color);
     if (newVals.metalness !== undefined) mat.metalness = newVals.metalness;
     if (newVals.roughness !== undefined) mat.roughness = newVals.roughness;
+
+    if (newVals.flatShading !== undefined) {
+      this.mesh.material = newVals.flatShading ?
+        new THREE.MeshPhongMaterial({ flatShading: true }) :
+        new THREE.MeshStandardMaterial({
+          color: this.settings.color,
+          metalness: this.settings.metalness,
+          roughness: this.settings.roughness
+        });
+    }
   }
 
   /**
