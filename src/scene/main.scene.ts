@@ -30,7 +30,8 @@ export function initScene(container: HTMLElement) {
     position: new THREE.Vector3(-2.0, 0.0, 0.0),
     rotationSpeed: new THREE.Vector3(0.7, 0.9, 0.1),
     metalness: 0.9,
-    roughness: 0.6
+    roughness: 0.6,
+    flatShading: false,
   };
 
   const cube2Settings: CubeSettings = {
@@ -39,7 +40,8 @@ export function initScene(container: HTMLElement) {
     position: new THREE.Vector3(1.0, 1.0, 1.0),
     rotationSpeed: new THREE.Vector3(1.0, 0.5, 0.3),
     metalness: 0.9,
-    roughness: 0.6
+    roughness: 0.6,
+    flatShading: true,
   };
 
   const cubes: Cube[] = [];
@@ -56,7 +58,7 @@ export function initScene(container: HTMLElement) {
     rotationSpeed: new THREE.Vector3(0.2, 0.7, 0.8),
     metalness: 0.9,
     roughness: 0.6,
-    flatShading: true
+    flatShading: true,
   };
   const sphere = new Sphere(engine.scene, sphereSettings);
   engine.addObject(sphere);
@@ -81,7 +83,8 @@ export function initScene(container: HTMLElement) {
         THREE.MathUtils.randFloat(0, 2),
         THREE.MathUtils.randFloat(0, 2)),
       metalness: THREE.MathUtils.randFloat(0.2, 0.9),
-      roughness: THREE.MathUtils.randFloat(0.2, 0.9)
+      roughness: THREE.MathUtils.randFloat(0.2, 0.9),
+      flatShading: THREE.MathUtils.randFloat(0, 1) < 0.5,
     };
     const newCube = new Cube(engine.scene, newCubeSettings);
     engine.addObject(newCube);

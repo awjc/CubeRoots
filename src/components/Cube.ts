@@ -17,6 +17,8 @@ export interface CubeSettings {
   metalness: number;
   /** The roughness of the cube's material. */
   roughness: number;
+  /** Whether the shading is flat or the standard material */
+  flatShading: boolean;
 }
 
 /**
@@ -32,11 +34,16 @@ export class Cube extends BaseObject {
    */
   constructor(scene: THREE.Scene, initialSettings: CubeSettings) {
     const geometry = new THREE.BoxGeometry(initialSettings.size, initialSettings.size, initialSettings.size);
-    const material = new THREE.MeshStandardMaterial({
-      color: initialSettings.color,
-      metalness: initialSettings.metalness,
-      roughness: initialSettings.roughness
-    });
+    const material = initialSettings.flatShading ?
+      new THREE.MeshPhongMaterial({
+        color: initialSettings.color,
+        flatShading: true
+      }) :
+      new THREE.MeshStandardMaterial({
+        color: initialSettings.color,
+        metalness: initialSettings.metalness,
+        roughness: initialSettings.roughness
+      });
 
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(initialSettings.position.x, initialSettings.position.y, initialSettings.position.z);
@@ -79,6 +86,19 @@ export class Cube extends BaseObject {
     if (newVals.color !== undefined) mat.color.set(newVals.color);
     if (newVals.metalness !== undefined) mat.metalness = newVals.metalness;
     if (newVals.roughness !== undefined) mat.roughness = newVals.roughness;
+
+    if (newVals.flatShading !== undefined) {
+      this.mesh.material = newVals.flatShading ?
+        new THREE.MeshPhongMaterial({
+          color: this.settings.color,
+          flatShading: true
+        }) :
+        new THREE.MeshStandardMaterial({
+          color: this.settings.color,
+          metalness: this.settings.metalness,
+          roughness: this.settings.roughness
+        });
+    }
   }
 
   /**

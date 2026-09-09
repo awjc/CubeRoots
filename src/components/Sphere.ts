@@ -38,7 +38,10 @@ export class Sphere extends BaseObject {
   constructor(scene: THREE.Scene, initialSettings: SphereSettings) {
     const geometry = new THREE.SphereGeometry(initialSettings.radius, WIDTH_SEGMENTS, HEIGHT_SEGMENTS);
     const material = initialSettings.flatShading ?
-      new THREE.MeshPhongMaterial({ flatShading: true }) :
+      new THREE.MeshPhongMaterial({
+        color: initialSettings.color,
+        flatShading: true
+      }) :
       new THREE.MeshStandardMaterial({
         color: initialSettings.color,
         metalness: initialSettings.metalness,
@@ -89,7 +92,10 @@ export class Sphere extends BaseObject {
 
     if (newVals.flatShading !== undefined) {
       this.mesh.material = newVals.flatShading ?
-        new THREE.MeshPhongMaterial({ flatShading: true }) :
+        new THREE.MeshPhongMaterial({
+          color: this.settings.color,
+          flatShading: true
+        }) :
         new THREE.MeshStandardMaterial({
           color: this.settings.color,
           metalness: this.settings.metalness,
