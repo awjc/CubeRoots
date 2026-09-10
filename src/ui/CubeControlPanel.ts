@@ -83,6 +83,10 @@ export class CubeControlPanel {
     folder.add(cubeSettings.rotationSpeed, 'y', 0, 5).name('Rot Y');
     folder.add(cubeSettings.rotationSpeed, 'z', 0, 5).name('Rot Z');
 
+    folder.add(cubeSettings, 'flatShading').name('Flat Shading').onChange((val: boolean) => {
+      cube.setAppearanceVals({ flatShading: val });
+    });
+
     // Start with the folder collapsed to avoid clutter
     folder.close()
 

@@ -40,10 +40,6 @@ export class Sphere extends BaseObject {
     const material = initialSettings.flatShading ?
       new THREE.MeshPhongMaterial({
         color: initialSettings.color,
-        shininess: 100,
-        emissive: initialSettings.color,
-        // emissive: new THREE.Color('#ff00ff'),
-        emissiveIntensity: 0.2,
         flatShading: true
       }) :
       new THREE.MeshStandardMaterial({
@@ -55,11 +51,6 @@ export class Sphere extends BaseObject {
 
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(initialSettings.position.x, initialSettings.position.y, initialSettings.position.z);
-
-
-    //  Emitting sphere
-    const light = new THREE.PointLight(initialSettings.color, 100); // Use the sphere's color
-    mesh.add(light);
 
     super(mesh);
     this.settings = initialSettings;
