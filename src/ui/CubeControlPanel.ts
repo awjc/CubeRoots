@@ -13,27 +13,23 @@ type Actions = {
  * Uses lil-gui to provide a user interface.
  */
 export class CubeControlPanel {
-  /** The main top-level gui */
-  private gui: GUI;
   /** Subfolder for holding the cube folders */
   private cubesFolder!: GUI;
   /** A mapping of each cube object to its own folder */
   private folders: Map<Cube, GUI>;
-
+  /** The controllers for delete actions which get enabled/disabled depending on number of cubes */
   private deleteActionControllers: Set<Controller>;
 
   /**
-   * Creates a new control panel instance.
-   * @param cube The Cube object to control.
+   * Creates a new control panel instance in the given top-level GUI
    */
-  constructor(private cubes: Cube[]) {
-    this.gui = new GUI({ /* some options can go here */ });
+  constructor(private gui: GUI, private cubes: Cube[]) {
     this.folders = new Map();
     this.deleteActionControllers = new Set();
   }
 
   /**
-   * Initializes the GUI with controls for the cube's settings.
+   * Initializes the GUI with controls for the objects' settings.
    */
   public initialize(actions: Actions) {
     this.gui.add(actions, 'spawnNewCube').name('Spawn New Cube');

@@ -47,7 +47,6 @@ export class Sphere extends BaseObject {
         metalness: initialSettings.metalness,
         roughness: initialSettings.roughness
       });
-    // Inside the Sphere constructor (src/components/Sphere.ts)
 
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(initialSettings.position.x, initialSettings.position.y, initialSettings.position.z);
