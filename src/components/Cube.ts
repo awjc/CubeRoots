@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { BaseObject } from '@/components/BaseObject';
+import { CubeControlPanel } from '@/ui/CubeControlPanel';
 
 /**
  * Configuration settings for a Cube object.

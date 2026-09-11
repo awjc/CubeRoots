@@ -44,7 +44,8 @@ export class Engine {
   private selectionManager: SelectionManager;
 
   private composer!: EffectComposer;
-  private outlinePass!: OutlinePass;
+  private hoverOutlinePass!: OutlinePass;
+  private selectionOutlinePass!: OutlinePass;
 
   /**
    * Creates a new engine instance.
@@ -96,18 +97,33 @@ export class Engine {
     const renderPass = new RenderPass(this.scene, this.camera);
     this.composer.addPass(renderPass);
 
-    this.outlinePass = new OutlinePass(
+    // Setup Hover Outline Pass (gray)
+    this.hoverOutlinePass = new OutlinePass(
       new THREE.Vector2(config.container.clientWidth, config.container.clientHeight),
       this.scene,
       this.camera
     );
-    this.outlinePass.edgeStrength = 3.0;
-    this.outlinePass.edgeGlow = 1.0;
-    this.outlinePass.edgeThickness = 1.0;
-    this.outlinePass.visibleEdgeColor.set('#ffffff');
-    this.outlinePass.hiddenEdgeColor.set('#190a05');
-    this.composer.addPass(this.outlinePass);
+    this.hoverOutlinePass.edgeStrength = 2.0;
+    this.hoverOutlinePass.edgeThickness = 1.0;
+    this.hoverOutlinePass.edgeGlow = 0.5;
+    this.hoverOutlinePass.visibleEdgeColor.set('#999999');
+    this.hoverOutlinePass.hiddenEdgeColor.set('#000000');
+    this.composer.addPass(this.hoverOutlinePass);
 
+    // Setup Selection Outline Pass (white)
+    this.selectionOutlinePass = new OutlinePass(
+      new THREE.Vector2(config.container.clientWidth, config.container.clientHeight),
+      this.scene,
+      this.camera
+    );
+    this.selectionOutlinePass.edgeStrength = 4.0;
+    this.selectionOutlinePass.edgeThickness = 1.0;
+    this.selectionOutlinePass.edgeGlow = 1.0;
+    this.selectionOutlinePass.visibleEdgeColor.set('#ffffff');
+    this.selectionOutlinePass.hiddenEdgeColor.set('#000000');
+    this.composer.addPass(this.selectionOutlinePass);
+
+    // Selection manager does mouse raycasting to find which object is clicked
     this.selectionManager = new SelectionManager(
       this.canvas,
       this.camera,
@@ -133,13 +149,16 @@ export class Engine {
   }
 
   private updateOutline() {
-    const highlighted: THREE.Object3D[] = [];
+    const hovered: THREE.Object3D[] = [];
+    const selected: THREE.Object3D[] = [];
+
     this.objectsInScene.forEach(obj => {
-      if (obj.isHovered || obj.isSelected) {
-        highlighted.push(obj.mesh);
-      }
+      if (obj.isHovered) hovered.push(obj.mesh);
+      if (obj.isSelected) selected.push(obj.mesh);
     });
-    this.outlinePass.selectedObjects = highlighted;
+
+    this.hoverOutlinePass.selectedObjects = hovered;
+    this.selectionOutlinePass.selectedObjects = selected;
   }
 
   /**
@@ -218,7 +237,8 @@ export class Engine {
     this.camera.updateProjectionMatrix();
 
     this.composer.setSize(width, height);
-    this.outlinePass.setSize(new THREE.Vector2(width, height));
+    this.hoverOutlinePass.setSize(width, height);
+    this.selectionOutlinePass.setSize(width, height);
   }
 
   /**
