@@ -5,8 +5,8 @@ import * as THREE from 'three';
  * Provides common functionality for adding/removing meshes from a scene and an update interface.
  */
 export abstract class BaseObject {
-  protected isHovered: boolean = false;
-  protected isSelected: boolean = false;
+  public isHovered: boolean = false;
+  public isSelected: boolean = false;
 
   protected HOVERED_COLOR: THREE.ColorRepresentation = '#770077';
   protected SELECTED_COLOR: THREE.ColorRepresentation = '#ff00ff';
